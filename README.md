@@ -1,68 +1,55 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+앞으로 함수형 컴포넌트와 Hook의 사용이 주된 컴포넌트 개발 방향이 될 거라는
+리액트 개발팀의 권고에 따라, 가급적 함수형 컴포넌트로 구성을 하였다
 
-In the project directory, you can run:
+# chapter04 까지의 응용 예제 만들기
 
-### `npm start`
+01장 '환경 세팅', 02장 'JSX', 03장 '컴포넌트', 04장 '이벤트 핸들링'의 내용을
+담은 예제 구성
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+UserInfoInput 컴포넌트에서 회원정보를 입력받고, UserInfoOutput 컴포넌트에서
+출력하는 react app 구성
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+화면이동은 'react-router-dom' 패키지를 이용하여 App.js에서 라우팅 하였다
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 함수형 컴포넌트에서 스테이트 세팅
 
-### `npm run build`
+##### `useState Hook 사용(UserInfoInput)`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const [info, setInfo] = useState({name: '', age: '', sex: '', agree: ''});
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+##### `state 값을 object로 다루기 위해 ...연산자 사용(UserInfoInput)`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+const passToSetInfo = (e) => {
+  const nextInfo = {
+     ...info,
+    [e.target.name]: e.target.value
+  };
+  setInfo(nextInfo );
+  }`
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 입력 기본걊 설정
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+##### `props로 넘어온 값이 object이므로 defaultProps로 구현하지 못하고 삼항 조건문 사용(UserInfoOutput)`
+const {sex} = props.info.sex === '' ? {sex: 'male'} : props.info;
+const {agree} = props.info.agree === '' ? {agree: 'n'} : props.info;
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 이벤트 핸들링
 
-## Learn More
+##### `input 창에 입력하는 값이 실시간으로 state에 반영되도륵 onChange사용(UserInfoInput)`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+input value={info.name} name='name' placeholder='이름을 입력해 주세요' onChange={passToSetInfo}
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+##### `등록 버튼을 누르면 state값을 가지고 App.js의 state를 세팅하도록 onClick  메소드에 prop으로 전달받은 세터 설정(UserInfoInput)`
 
-### Code Splitting
+button onClick={() => goToOutput()}>등록</button
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+const goToOutput = () => {
+  props.infoToAppJs(info);
+  setGoTo('/output');
+}
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
