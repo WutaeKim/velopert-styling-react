@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 const UserInfoInput = (props) => {
   const [info, setInfo] = useState({name: '', age: '', sex: '', agree: ''});
   const [goTo, setGoTo] = useState('/');
+
   const passToSetInfo = (e) => {
     const nextInfo = {
       ...info,
@@ -17,21 +18,10 @@ const UserInfoInput = (props) => {
     setGoTo('/output');
   }
   
-  //  const cloneTable = () => {
-  //    const table = document.getElementById('table');
-  //    const cloned = table.cloneNode(true);
-  //    const parent = document.getElementById('parent');
-  //    parent.appendChild(cloned);
-  //    parent.childNodes.forEach((child, index) => {
-  //      console.log(child, index)
-  //      console.log(child.childNodes)
-  //    })
-  //  }
-  
   if (goTo === '/output') return <Redirect to='/output' />;
 
   return (
-    <div id='parent'>
+    <div>
       <h1>회원정보 입력</h1>
       <table style={{border: '1px solid black'}} id='table'>
         <tbody>
@@ -59,7 +49,7 @@ const UserInfoInput = (props) => {
           </tr>
         </tbody>
       </table>
-      <button onClick={() => cloneTable()}>+</button>
+      <button onClick={() => goToOutput()}>+</button>
       <button onClick={() => goToOutput()}>++</button>
       <button onClick={() => goToOutput()}>-</button>
       <button onClick={() => goToOutput()}>--</button><br />
