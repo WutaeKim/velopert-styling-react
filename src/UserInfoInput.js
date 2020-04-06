@@ -4,10 +4,10 @@ import { Redirect } from 'react-router-dom'
 const UserInfoInput = (props) => {
   //const를 사용하면info가 바뀔때마다 컴포넌트가 초기화되어 수정된 info를 한
   //번에 넘기는 법을 모르겠음
-  let [info, setState] = useState({name: '', age: '', sex: '', agree: ''});
+  let [info, setInfo] = useState({name: '', age: '', sex: '', agree: ''});
   let [goTo, setGoTo] = useState('/');
   const passToSetInfo = (e) => {
-    setState({ ...info, [e.target.name]: e.target.value});
+    setInfo({ ...info, [e.target.name]: e.target.value});
     console.log(info)
   }
 
