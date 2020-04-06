@@ -5,7 +5,6 @@ import { Switch, Route } from 'react-router-dom';
 
 const App = () => {
   const [info, setInfo] = useState({name: '', age: '', sex: '', agree: false});
-  console.log(info);
   return (
     <Switch>
       <Route path='/output'>
