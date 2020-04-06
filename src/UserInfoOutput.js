@@ -3,8 +3,6 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const UserInfoOutput = (props) => {
-  console.log(props)
-  console.log(props.info)
   const [goTo, setGoTo] = useState('');
 
   const {name, age} = props.info;
