@@ -8,6 +8,8 @@ const UserInfoInput = (props) => {
   // ref로 사용할 변수를 input element에서 할당하기 위해 선언. const사용불가
   let ageRef = '';
   let nameRef = '';
+  let tableRef = '';
+  let parentRef = '';
 
   const passToSetInfo = (e) => {
     const nextInfo = {
@@ -15,12 +17,53 @@ const UserInfoInput = (props) => {
       [e.target.name]: e.target.value
     };
     setInfo(nextInfo);
+    console.log(info)
   }
-
+  
   const goToOutput = () => {
     props.infoToAppJs(info);
-    nameRef.value === '' ? nameRef.focus() :
-    ageRef.value === '' ? ageRef.focus() : setGoTo('/output');
+    //nameRef.value === '' ? nameRef.focus() :
+    //ageRef.value === '' ? ageRef.focus() : setGoTo('/output');
+    //    parentRef.childNodes.forEach((table, index) => {
+    //      const inputNameNode =
+    //          table.childNodes[0].childNodes[0].childNodes[1].childNodes[1];
+    //      console.log(inputNameNode)
+    //      const inputAgeNode =
+    //          table.childNodes[0].childNodes[1].childNodes[1].childNodes[1];
+    //      console.log(inputAgeNode)
+    //      inputNameNode.value === '' ? inputNameNode.focus() :
+    //          inputAgeNode.value === '' ? inputAgeNode.focus() : setGoTo('/output');
+    //    })
+    const tables = parentRef.childNodes;
+    for (let i = 0; i <  tables.length; i++ ) {
+          const inputNameNode =
+              tables[i].childNodes[0].childNodes[0].childNodes[1].childNodes[1];
+          const inputAgeNode =
+              tables[i].childNodes[0].childNodes[1].childNodes[1].childNodes[1];
+          if (inputNameNode.value === '') {
+            inputNameNode.focus();
+            break;
+          }
+          if (inputAgeNode.value === '') {
+            inputAgeNode.focus();
+            break;
+          } else if (i === tables.length - 1) setGoTo('/output');
+
+    }
+  }
+
+  const plusTable = () => {
+    const cloned = tableRef.cloneNode(true);
+    parentRef.appendChild(cloned);
+    const tableBody = cloned.childNodes[0];
+    tableBody.childNodes.forEach((_, index) => {
+      const input = 
+          cloned.childNodes[0].childNodes[index].childNodes[1].childNodes[1];
+      input.name = input.name + (parentRef.childNodes.length - 1);
+      input.onChange = passToSetInfo;
+      console.log(input.onChange)
+    })
+    
   }
 
   if (goTo === '/output') return <Redirect to='/output' />;
@@ -28,7 +71,8 @@ const UserInfoInput = (props) => {
   return (
     <div>
       <h1>회원정보 입력</h1>
-      <table style={{border: '1px solid black'}} id='table'>
+      <div ref={ref=>parentRef=ref}>
+      <table ref={ref=>tableRef=ref} style={{border: '1px solid black'}} >
         <tbody>
           <tr>
             <td> 회원이름 </td>
@@ -57,10 +101,11 @@ const UserInfoInput = (props) => {
           </tr>
         </tbody>
       </table>
-      <button onClick={() => goToOutput()}>+</button>
-      <button onClick={() => goToOutput()}>++</button>
-      <button onClick={() => goToOutput()}>-</button>
-      <button onClick={() => goToOutput()}>--</button><br />
+      </div>
+      <button onClick={() => plusTable()}>+</button>
+      <button onClick={() => {}}>++</button>
+      <button onClick={() => {}}>-</button>
+      <button onClick={() => {}}>--</button><br />
       <button onClick={() => goToOutput()}>등록</button>
     </div>
   )
